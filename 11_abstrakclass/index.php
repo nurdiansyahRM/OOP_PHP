@@ -3,7 +3,7 @@
 use cetakinfoproduk as GlobalCetakinfoproduk;
 use produk as GlobalProduk;
 
-class produk{
+abstract class Produk{
     private $judul,
             $penulis,
             $penerbit,
@@ -18,6 +18,7 @@ class produk{
         $this->penerbit = $penerbit;
         $this->harga = $harga;
     }
+    abstract public function getinfoproduk();
     public function setJudul($judul){
         $this->judul = $judul;
     }
@@ -36,7 +37,7 @@ class produk{
     public function getLabel() { 
         return "$this->penerbit, $this->penulis";
     }
-    public function getinfoproduk(){
+    public function getinfo(){
         $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
         return $str;
     }
@@ -54,7 +55,7 @@ class produk{
         return $this->penerbit;
     }
 }
-class komik extends produk{
+class komik extends Produk{
     public $jmlhalaman;
         public function __construct($judul = "judul", $penulis ="penulis",$penerbit ="penerbit", $harga =0, $jmlhalaman = 0)
         {
@@ -62,11 +63,11 @@ class komik extends produk{
             $this->jmlhalaman = $jmlhalaman;
         }
         public function getinfoproduk(){
-            $str = "Komik : ".parent::getinfoproduk() ." ({$this->jmlhalaman} : Halaman)";
+            $str = "Komik : ". $this->getinfo() ." ({$this->jmlhalaman} : Halaman)";
             return $str;
         }
 }
-class game extends produk{
+class game extends Produk{
     public $waktuMain;
         public function __construct($judul = "judul", $penulis ="penulis",$penerbit ="penerbit", $harga = 0, $waktuMain = 0)
         {
@@ -75,26 +76,31 @@ class game extends produk{
         }
         public function getinfoproduk()
         {
-            $str = "game : ". parent :: getinfoproduk() ."({$this->waktuMain} : jam)";
+            $str = "game : ". $this->getinfo() ."({$this->waktuMain} : jam)";
             return $str;
         }
 
 }
 class cetakinfoproduk {
-    public function cetak(GlobalProduk $produk){
-        $str = "{$produk->judul} | {$produk->getLabel()} (Rp. {$produk->harga})";
+    public $daftarProduk = array();
+
+    public function tambahProduk(Produk $produk){
+        $this->daftarProduk[] = $produk;
+    }
+
+
+    public function cetak(){
+        $str = "DAFTAR PRODUK : <br>";
+        foreach ($this->daftarProduk as $p){
+            $str .= "-{$p->getinfoProduk()}<br>";
+        }
         return $str;
     }
 }
 $produk1 = new komik("naruto","masashi kishimoto","shonen jump",20000,100);
 $produk2 = new game("Free fire "," sea grup"," garena ",250000,59);
-$produk3 = new produk("mobil"," ferrari"," ferrari ",25000000);
-echo $produk1->getinfoproduk();
-echo "<hr>";
-echo $produk2->getinfoproduk();
-echo "<br>";
-$produk2->setdiskon(50);
-echo $produk2->getharga();
-echo "<hr>";
-$produk3->setjudul('nano');
-echo $produk3->getjudul();
+
+$cetakProduk = new cetakinfoproduk();
+$cetakProduk->tambahProduk($produk1);
+$cetakProduk->tambahProduk($produk2);
+echo $cetakProduk->cetak();
