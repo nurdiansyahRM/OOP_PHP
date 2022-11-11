@@ -32,7 +32,7 @@ class game extends GlobalProduk{
         $this->lama = $lama;
     }
 }
-
+//berfungsi sebagai objeck type
 class cetakinfoproduk{
     public function cetakproduk(produk $produk){
         $str = "komik : {$produk->judul} | {$produk->getLabel()} (Rp. {$produk->harga}) (halaman . {$produk->halaman}) ";

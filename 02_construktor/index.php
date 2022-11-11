@@ -16,6 +16,7 @@ class produk{
     }
 }
 
+
 $produk1 = new produk("naruto","masashi kishimoto","shonen jump",20000);
 $produk4 = new produk("free fire","jonin","garena",250000);
 
