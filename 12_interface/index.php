@@ -55,7 +55,7 @@ abstract class Produk{
         return $this->penerbit;
     }
 }
-class komik extends Produk implements InfoProduk{
+class Komik extends Produk implements InfoProduk{
     public $jmlhalaman;
         public function __construct($judul = "judul", $penulis ="penulis",$penerbit ="penerbit", $harga =0, $jmlhalaman = 0)
         {
@@ -71,7 +71,7 @@ class komik extends Produk implements InfoProduk{
             return $str;
         }
 }
-class game extends Produk implements InfoProduk{
+class Game extends Produk implements InfoProduk{
     public $waktuMain;
         public function __construct($judul = "judul", $penulis ="penulis",$penerbit ="penerbit", $harga = 0, $waktuMain = 0)
         {
@@ -89,7 +89,7 @@ class game extends Produk implements InfoProduk{
         }
 
 }
-class cetakinfoproduk {
+class CetakInfoProduk {
     public $daftarProduk = array();
 
     public function tambahProduk(Produk $produk){
@@ -105,10 +105,10 @@ class cetakinfoproduk {
         return $str;
     }
 }
-$produk1 = new komik("naruto","masashi kishimoto","shonen jump",20000,100);
-$produk2 = new game("Free fire "," sea grup"," garena ",250000,59);
+$produk1 = new Komik("naruto","masashi kishimoto","shonen jump",20000,100);
+$produk2 = new Game("Free fire "," sea grup"," garena ",250000,59);
 
-$cetakProduk = new cetakinfoproduk();
+$cetakProduk = new CetakInfoProduk();
 $cetakProduk->tambahProduk($produk1);
 $cetakProduk->tambahProduk($produk2);
 echo $cetakProduk->cetak();
