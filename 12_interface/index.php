@@ -3,14 +3,18 @@
 use cetakinfoproduk as GlobalCetakinfoproduk;
 use produk as GlobalProduk;
 
+interface InfoProduk{
+    public function getinfoproduk();
+}
+
 abstract class Produk{
-    private $judul,
+    protected $judul,
             $penulis,
             $penerbit,
-            $harga ;
+            $harga ,
+            $diskon = 0;
     //protected $harga ; //kalo visibility ya protected bisa diakses di parent ya sama child ya
  //kalo visibility ya private bisa diakses hanya di parent ya saja
-    protected $diskon;
     public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit",$harga = 0)
     {
         $this->judul = $judul;
@@ -18,7 +22,7 @@ abstract class Produk{
         $this->penerbit = $penerbit;
         $this->harga = $harga;
     }
-    abstract public function getinfoproduk();
+    abstract function getinfo();
     public function setJudul($judul){
         $this->judul = $judul;
     }
@@ -37,10 +41,7 @@ abstract class Produk{
     public function getLabel() { 
         return "$this->penerbit, $this->penulis";
     }
-    public function getinfo(){
-        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
-        return $str;
-    }
+
     public function getharga(){
         return $this->harga - ($this->harga * $this->diskon /100);
     }
@@ -54,24 +55,32 @@ abstract class Produk{
         return $this->penerbit;
     }
 }
-class komik extends Produk{
+class komik extends Produk implements InfoProduk{
     public $jmlhalaman;
         public function __construct($judul = "judul", $penulis ="penulis",$penerbit ="penerbit", $harga =0, $jmlhalaman = 0)
         {
             parent::__construct($judul , $penulis ,$penerbit , $harga );
             $this->jmlhalaman = $jmlhalaman;
         }
+        public function getinfo(){
+            $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+            return $str;
+        }
         public function getinfoproduk(){
             $str = "Komik : ". $this->getinfo() ." ({$this->jmlhalaman} : Halaman)";
             return $str;
         }
 }
-class game extends Produk{
+class game extends Produk implements InfoProduk{
     public $waktuMain;
         public function __construct($judul = "judul", $penulis ="penulis",$penerbit ="penerbit", $harga = 0, $waktuMain = 0)
         {
             parent::__construct($judul, $penulis,$penerbit, $harga);
             $this->waktuMain = $waktuMain;
+        }
+        public function getinfo(){
+            $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+            return $str;
         }
         public function getinfoproduk()
         {
